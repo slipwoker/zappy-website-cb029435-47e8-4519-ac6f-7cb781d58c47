@@ -1,0 +1,293 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="הסיפור שלנו - איך התחלנו ולמה אנחנו עושות את מה שאנחנו עושות. הכירו את הצוות ואת הגישה שלנו לארגון בית."><meta name="keywords" content="אודות, הסיפור שלנו, צוות, ערכים, גישה לארגון"><title>אודות - מתארגנות על החיים</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<style>
+/* Zappy Attribution Header Styles */
+.zappy-header {
+  position: static;
+  width: 100%;
+  background: white;
+  box-shadow: 0px 4px 19px 0px rgba(0,0,0,0.04);
+  padding: 16px 10px;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  color: #4a4a4a;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 21px;
+}
+
+    .zappy-header p {
+      margin: 0;
+      padding: 0;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 21px;
+      white-space: nowrap;
+      display: inline-block;
+      vertical-align: baseline;
+      margin-bottom: 0 !important;
+    }
+
+.zappy-header .created-by {
+  text-transform: lowercase;
+  font-weight: 400;
+}
+
+.zappy-header .zappy-link {
+  font-weight: 700;
+  color: #4a4a4a;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.zappy-header .zappy-link:hover {
+  opacity: 0.7;
+}</style>
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+<!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'cb029435-47e8-4519-ac6f-7cb781d58c47',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve session ID
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('click', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <link rel="stylesheet" href="styles.css">
+</head><body>
+
+<!-- Zappy Attribution Header -->
+<div id="zappy-attribution-header" class="zappy-header" style="display: none;">
+  <p>
+    <span>Happily </span>
+    <span class="created-by">created by</span> 
+    <a href="https://zappy5.com" target="_blank" rel="noopener noreferrer" class="zappy-link">Zappy</a>
+  </p>
+</div><nav class="navbar" id="navbar"><div class="container nav-container"><div class="nav-brand"><a href="/" class="logo-link"><img src="assets/logo.webp" alt="מתארגנות על החיים" class="logo" /></a></div><button class="mobile-toggle" id="mobileToggle" aria-label="תפריט"><svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg><svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></button><button class="phone-header-btn" aria-label="התקשרו אלינו"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></button><ul class="nav-menu" id="navMenu"><li><a href="/services">השירותים שלנו</a></li><li><a href="/about">אודות</a></li><li><a href="/contact">צור קשר</a></li></ul></div></nav><main><section class="page-header"><div class="container"><h1>הסיפור שלנו</h1><p>איך הכל התחיל ולמה אנחנו עושות את מה שאנחנו עושות</p></div></section><section class="story"><div class="container"><div class="story-content"><div class="story-text"><h2>מאימהות עסוקות לארגון מקצועי</h2><p>הכל התחיל כשהבנו שאנחנו לא לבד. כאמהות עסוקות, חווינו את האתגר של לנהל בית מאורגן תוך כדי עבודה, ילדים וכל מה שביניהם. הבית הפך לפעמים למקור מתח במקום מקום מנוחה, והסדר נדחק הצידה בין כל המשימות.</p><p>אז החלטנו לעשות משהו בנידון. למדנו, התנסינו ופיתחנו שיטות עבודה שעובדות באמת - לא רק תיאוריה יפה אלא פתרונות מעשיים שמתאימים לחיים אמיתיים. התחלנו לעזור לחברות, ואז לחברות של חברות, ומהר מאוד הבנו שיש פה משהו שמשנה חיים.</p><p>היום אנחנו צוות של נשים שאוהבות את מה שהן עושות. אנחנו מבינות את האתגרים מקרוב, ואנחנו יודעות איך ליצור פתרונות שעובדים. כל פרויקט הוא עולם ומלואו, וכל משפחה מקבלת את תשומת הלב המלאה שלנו.</p></div></div></div></section><section class="values"><div class="container"><h2>הערכים שלנו</h2><div class="values-grid"><div class="value-card"><div class="value-icon"><i class="fas fa-heart"></i></div><h3>אמפתיה והקשבה</h3><p>אנחנו מבינות שכל בית הוא סיפור משלו. אנחנו מקשיבות, לא שופטות, ועובדות בקצב שנוח לכם.</p></div><div class="value-card"><div class="value-icon"><i class="fas fa-users"></i></div><h3>עבודת צוות</h3><p>אנחנו עובדות יחד איתכם, לא במקומכם. התהליך הוא שיתופי והמטרה היא שתדעו לתחזק את הסדר לבד.</p></div><div class="value-card"><div class="value-icon"><i class="fas fa-star"></i></div><h3>מקצועיות</h3><p>אנחנו מתייחסות לעבודה שלנו ברצינות. מגיעות בזמן, עובדות ביעילות ומקפידות על איכות גבוהה.</p></div><div class="value-card"><div class="value-icon"><i class="fas fa-lightbulb"></i></div><h3>יצירתיות</h3><p>כל בית דורש פתרונות שונים. אנחנו חושבות מחוץ לקופסה ומוצאות פתרונות מותאמים אישית.</p></div><div class="value-card"><div class="value-icon"><i class="fas fa-check-circle"></i></div><h3>פרקטיות</h3><p>לא מספיק שזה נראה יפה - זה צריך גם לעבוד. אנחנו יוצרות מערכות שקל לתחזק בשגרה היומיומית.</p></div><div class="value-card"><div class="value-icon"><i class="fas fa-handshake"></i></div><h3>אמון ודיסקרטיות</h3><p>אנחנו נכנסות לבתים ולחיים שלכם. אנחנו שומרות על פרטיות מלאה ומכבדות את המרחב האישי.</p></div></div></div></section><section class="approach"><div class="container"><h2>הגישה שלנו</h2><div class="approach-content"><div class="approach-item"><div class="approach-number">01</div><div class="approach-text"><h3>התחלה נכונה</h3><p>אנחנו מתחילות בשיחה מעמיקה - מה הצרכים, מה האתגרים, מה סגנון החיים שלכם. רק אז אנחנו מתכננות את הפתרון המתאים.</p></div></div><div class="approach-item"><div class="approach-number">02</div><div class="approach-text"><h3>מיון ושחרור</h3><p>לפני שמארגנים, צריך להחליט מה נשאר ומה הולך. אנחנו עוזרות לקבל החלטות בלי לחץ ובלי שיפוטיות.</p></div></div><div class="approach-item"><div class="approach-number">03</div><div class="approach-text"><h3>מערכות חכמות</h3><p>אנחנו לא רק מסדרות - אנחנו יוצרות מערכות שעובדות. כל דבר במקום הגיוני שלו, קל למצוא וקל להחזיר.</p></div></div><div class="approach-item"><div class="approach-number">04</div><div class="approach-text"><h3>הדרכה ותחזוקה</h3><p>אנחנו מלמדות אתכם איך לשמור על הסדר. זה לא קסם - זה שיטה, והיא פשוטה יותר ממה שחושבים.</p></div></div></div></div></section><section class="testimonials"><div class="container"><h2>מה הלקוחות שלנו אומרות</h2><div class="testimonials-grid"><div class="testimonial-card"><div class="testimonial-text"><p>"לא האמנתי שאפשר להפוך את הבלגן שהיה אצלי בבית למשהו כל כך מאורגן ונעים. הן עבדו בסבלנות, לא שפטו, ולימדו אותי איך לשמור על זה. היום, חצי שנה אחרי, הבית עדיין נראה מדהים."</p></div><div class="testimonial-author"><strong>שרה כהן</strong><span>אמא לשלושה</span></div></div><div class="testimonial-card"><div class="testimonial-text"><p>"הן הצילו לי את החיים! עם תינוק חדש והרבה עבודה, הבית הפך לבלגן בלתי אפשרי. תוך יומיים הן הפכו את הבית למקום שאני שמחה לחזור אליו. וגם לימדו אותי טריקים שממשיכים לעזור לי כל יום."</p></div><div class="testimonial-author"><strong>מיכל לוי</strong><span>אמא טרייה</span></div></div><div class="testimonial-card"><div class="testimonial-text"><p>"אחרי מעבר דירה הייתי אבודה לגמרי. הן ליוו אותי בכל התהליך - מהאריזה ועד לסידור האחרון בבית החדש. הבית נראה כאילו אנחנו גרים בו כבר שנים, והכל במקום הנכון. שווה כל שקל."</p></div><div class="testimonial-author"><strong>דנה אברהם</strong><span>לאחר מעבר דירה</span></div></div></div></div></section><section class="cta-section"><div class="container"><div class="cta-content"><h2>רוצות להכיר אותנו יותר?</h2><p>בואו נדבר ונראה איך אנחנו יכולות לעזור לכם</p><a href="/contact" class="btn btn-primary">צרו קשר</a></div></div></section></main>
+    <!-- Legal Footer -->
+    <footer class="legal-footer">
+      <div class="container">
+        <div class="footer-main">
+          <div class="all-rights-reserved">
+            <p>© 2025 מתארגנות על החיים. כל הזכויות שמורות.</p>
+          </div>
+          <div class="footer-social"><a href="#" target="_blank" rel="noopener noreferrer" aria-label="פייסבוק"><i class="fab fa-facebook"></i></a>
+<a href="#" target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם"><i class="fab fa-instagram"></i></a>
+<a href="#" target="_blank" rel="noopener noreferrer" aria-label="וואטסאפ"><i class="fab fa-whatsapp"></i></a></div>
+          <div class="footer-legal">
+            <a href="privacy.html" target="_blank" rel="noopener" aria-label="מדיניות פרטיות">
+              מדיניות פרטיות
+            </a>
+            <span class="separator">|</span>
+            <a href="accessibility.html" target="_blank" rel="noopener" aria-label="נגישות">
+              נגישות
+            </a>
+            <span class="separator">|</span>
+            <a href="terms.html" target="_blank" rel="noopener" aria-label="תנאי שימוש">
+              תנאי שימוש
+            </a>
+          </div>
+        </div>
+        <div class="zappy-attribution">
+          <p>נוצר באמצעות Zappy</p>
+        </div>
+      </div>
+    </footer><a href="https://wa.me/972500000000" target="_blank" class="whatsapp-float" aria-label="וואטסאפ" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+<!-- Zappy Attribution Header Script -->
+<script>
+(function() {
+  var websiteId = 'cb029435-47e8-4519-ac6f-7cb781d58c47';
+  
+  // Don't show header in preview mode
+  var currentUrl = window.location.href;
+  var isPreview = currentUrl.includes('/preview/') || 
+                  currentUrl.includes('/preview-fullscreen/') || 
+                  currentUrl.includes('localhost:5001') ||
+                  currentUrl.includes('localhost:3000');
+  
+  if (isPreview) {
+    return; // Exit early in preview mode
+  }
+  
+  fetch('https://api.zappy5.com/api/website/' + websiteId + '/tier')
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      if (data.showAttribution) {
+        var header = document.getElementById('zappy-attribution-header');
+        if (header) {
+          header.style.display = 'block';
+        }
+      }
+    })
+    .catch(function(error) {
+      console.error('Failed to check tier:', error);
+    });
+})();
+</script>
+    <div data-integration="accessibility:toolbar"></div>
+    <script src="script.js"></script>
+</body></html>
